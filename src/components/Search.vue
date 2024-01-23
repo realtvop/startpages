@@ -45,7 +45,7 @@ export default {
         </mdui-select> -->
         <mdui-text-field type="search" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
             :label="`Search ${selectedEngine.name}`" clearable @input="keyword = $event.target.value"
-            @keyup.enter="doSearch" helper="↑ Choose search engine here" helper-on-focus>
+            @keyup.enter="doSearch" helper="↑ Choose search engine here" helper-on-focus autofocus>
             <mdui-dropdown slot="icon">
                 <mdui-button-icon slot="trigger" icon="search" variant="filled"></mdui-button-icon>
                 <mdui-menu>
