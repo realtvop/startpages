@@ -79,14 +79,13 @@ self.addEventListener("install", (e) => {
 self.addEventListener("fetch", async function (e) {
     const urlParsed = parseURL(e.request.url);
     const currentUrlParsed = parseURL(self.location.href);
-    // const urlOri = e.request.url;
     if (e.request.url.startsWith("http")) {
         if (urlParsed.host === "res.realtvop.eu.org") {
             e.respondWith(cacheFirst(e.request, cacheStorageKey + "res"));
             return;
-        } else /* if (urlParsed.path.endsWith(".json")) {
+        } else if (urlParsed.path.endsWith(".json")) {
             return;
-        } else */ if (urlParsed.host == currentUrlParsed.host) {
+        } else if (urlParsed.host == currentUrlParsed.host) {
             e.respondWith(onlineFirst(e.request, cacheStorageKey + "Main"));
             return;
         } else return;
