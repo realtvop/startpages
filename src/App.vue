@@ -14,6 +14,9 @@ export default {
             setConfigDialog: {
                 open: false,
             },
+            userConfig: {
+                useJBM: false,
+            },
         };
     },
     mounted() {
@@ -32,6 +35,15 @@ export default {
             }
             if (configURL && navigator.onLine) this.loadConfigOnline(configURL);
         }
+        const userConfig = localStorage.getItem("userConfig");
+        if (userConfig)
+            try {
+                const userConfigParsed = JSON.parse(userConfig);
+                for (const i in userConfigParsed) this.userConfig[i] = userConfigParsed[i];
+            } catch (err) {
+                console.log(err);
+                showSnackBar("User config loading: ERROR");
+            }
     },
     methods: {
         loadConfigOnline(url) {
@@ -46,7 +58,13 @@ export default {
                     showSnackBar("Config online loading: ERROR");
                     this.config = defaultConfig;
                 });
-        }
+        },
+        // setFont(useJBM) {
+        //     this.userConfig.useJBM = useJBM;
+        //     console.log(useJBM, this.userConfig.useJBM)
+        //     // document.body.style.fontFamily = this.userConfig.useJBM ? 'JetBrainsMono' : 'Roboto, Noto, Helvetica, Arial, sans-serif';
+        //     // document.body.style.fontSize = this.userConfig.useJBM ? 'unset' : '14px';
+        // },
     },
     watch: {
         config: {
@@ -56,19 +74,28 @@ export default {
                 window.mdui.setColorScheme(newVal.color || "#64c8ff");
             },
         },
+        userConfig: {
+            handler(newVal) {
+                localStorage.setItem("userConfig", JSON.stringify(newVal));
+                // this.loadFont();
+                window.document.body.style.fontFamily = newVal.useJBM ? 'JetBrainsMono' : 'Roboto, Noto, Helvetica, Arial, sans-serif';
+            },
+            deep: true,
+        },
     },
 }
 </script>
 
 <template>
-    <SetConfigDialog :open="setConfigDialog.open" :config="config" :loadConfigOnline="loadConfigOnline" :closeDialog="() => setConfigDialog.open = false" :reloadConfig="c => config = c"></SetConfigDialog>
+    <SetConfigDialog :open="setConfigDialog.open" :config="config" :loadConfigOnline="loadConfigOnline"
+        :closeDialog="() => setConfigDialog.open = false" :reloadConfig="c => config = c"></SetConfigDialog>
     <mdui-layout style="position: fixed; left: 0; right: 0; top: 0; bottom: 0;">
         <mdui-top-app-bar order="1" scroll-behavior="elevate">
             <mdui-top-app-bar-title>
                 {{ config.title || "realtvop's startpage" }}
             </mdui-top-app-bar-title>
             <div style="flex-grow: 1"></div>
-            <UserInfo :config="config" :openSetConfigDialog="() => setConfigDialog.open = true"></UserInfo>
+            <UserInfo :config="config" :openSetConfigDialog="() => setConfigDialog.open = true" :changeFont="() => userConfig.useJBM = !userConfig.useJBM" :useJBM="userConfig.useJBM"></UserInfo>
         </mdui-top-app-bar>
 
         <mdui-layout-main>

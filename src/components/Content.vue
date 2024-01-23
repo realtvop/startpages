@@ -36,4 +36,9 @@ import { formatExternalURL } from '../utils/formatURL';
     overflow-x: scroll;
     gap: 10px;
 }
+
+mdui-list-item {
+    width: 20rem;
+    max-width: calc(100vw - 4rem)
+}
 </style>
