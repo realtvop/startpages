@@ -1,8 +1,8 @@
-export function formatExternalURL(url) {
+export function formatExternalURL(url, protocol) {
     if (
         !url.startsWith("//") &&
         !url.startsWith("http://") &&
         !url.startsWith("https://")
-    ) url = `//${url}`;
+    ) url = `${protocol || ""}//${url}`;
     return url;
 }

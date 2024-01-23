@@ -1,5 +1,11 @@
 <script setup>
 import { formatExternalURL } from '../utils/formatURL';
+
+function getIcon(url) {
+    url = formatExternalURL(url, "https:");
+    const parsed = new window.URL(url);
+    return `${parsed.origin}/favicon.ico`;
+}
 </script>
 
 <template>
@@ -11,7 +17,7 @@ import { formatExternalURL } from '../utils/formatURL';
                 <mdui-list-item v-for="link in column.links" :href="formatExternalURL(link.url)" rounded>
                     {{ link.name || link.url }}
                     <span slot="description" v-if="link.description">{{ link.description }}</span>
-                    <mdui-avatar slot="icon" v-if="link.icon" :src="link.icon"></mdui-avatar>
+                    <mdui-avatar slot="icon" :src="link.icon || getIcon(link.url)"></mdui-avatar>
                 </mdui-list-item>
             </mdui-list>
         </div>
