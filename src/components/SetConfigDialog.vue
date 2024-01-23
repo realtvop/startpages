@@ -64,7 +64,9 @@ export default {
 
 <style scoped>
 mdui-tabs {
-    min-width: 50vw;
+    /* min-width: 50vw; */
+    /* max-width: 35rem; */
+    width: 32rem;
 }
 
 mdui-tab {
