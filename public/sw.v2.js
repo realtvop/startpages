@@ -83,7 +83,7 @@ self.addEventListener("fetch", async function (e) {
         if (urlParsed.host === "res.realtvop.eu.org") {
             e.respondWith(cacheFirst(e.request, cacheStorageKey + "Res"));
             return;
-        } else if (urlParsed.path.endsWith(".json")) {
+        } else if (urlParsed.path.endsWith(".json") && !urlParsed.path.endsWith("manifest.json")) {
             return;
         } else if (urlParsed.host == currentUrlParsed.host) {
             e.respondWith(onlineFirst(e.request, cacheStorageKey + "Main"));

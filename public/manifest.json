@@ -5,7 +5,7 @@
 	"background_color": "#64c8ff",
 	"icons": [{
 		"src": "/icons/favicon.png",
-		"sizes": "512x512",
+		"sizes": "648x648",
 		"type": "image/png"
 	}],
 	"start_url": "/",
