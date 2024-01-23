@@ -109,7 +109,7 @@ export default {
     @media (orientation: landscape) {
         --length-unit: 1vw;
         width: 100%;
-        height: calc(100% + 3rem);
+        height: calc(100% + 2rem);
         margin-top: -2.5rem;
     }
 }
