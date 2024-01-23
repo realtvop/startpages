@@ -1,0 +1,23 @@
+<template>
+    <mdui-dropdown>
+        <mdui-button-icon class="userInfoBtn" slot="trigger">
+            <mdui-avatar v-if="$attrs.config.avatar" :src="$attrs.config.avatar"></mdui-avatar>
+            <mdui-icon v-else name='account_circle'></mdui-icon>
+        </mdui-button-icon>
+        <mdui-menu>
+            <mdui-menu-item style="display: flex; width: 100%; align-items: center; justify-content: center;">Hi, {{
+                $attrs.config.userName || "Guest" }}</mdui-menu-item>
+            <mdui-menu-item>Set Config</mdui-menu-item>
+        </mdui-menu>
+    </mdui-dropdown>
+</template>
+
+<style scoped>
+mdui-button-icon.userInfoBtn>mdui-avatar {
+    transform: scale(0.8);
+}
+
+mdui-button-icon.userInfoBtn>mdui-icon {
+    transform: scale(1.5);
+}
+</style>
