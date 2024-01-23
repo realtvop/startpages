@@ -8,5 +8,42 @@
         { "name": "Bing", "url": "https://www.bing.com/search?form=&q=%keyword%" },
         { "name": "DuckDuckGo", "url": "https://duckduckgo.com/?q=%keyword%" },
         { "name": "Stack Overflow", "url": "https://stackoverflow.com/search?q=%keyword%" }
+    ],
+    "pages": [
+        {
+            "title": "This Project",
+            "links": [
+                {
+                    "url": "github.com/realtvop",
+                    "name": "realtvop's GitHub homepage",
+                    "description": "Author of this project."
+                },
+                {
+                    "url": "github.com/startpages",
+                    "name": "This project on GitHub"
+                },
+                {
+                    "url": "realtvop.eu.org",
+                    "description": "Author's website"
+                }
+            ]
+        },
+        {
+            "title": "Author's Other Projects",
+            "links": [
+                {
+                    "url": "phitogether.fun",
+                    "name": "PhiTogether",
+                    "description": "Community driven rhythm game",
+                    "icon": "//realtvop.eu.org/icons/phitogether.ico"
+                },
+                {
+                    "url": "phi.zone",
+                    "name": "PhiZone",
+                    "description": "A fanmade community for Phigros",
+                    "icon": "//realtvop.eu.org/icons/phizone.ico"
+                }
+            ]
+        }
     ]
 }

@@ -1,5 +1,6 @@
 <script setup>
 import Search from './Search.vue';
+import Content from './Content.vue';
 </script>
 
 <script>
@@ -16,6 +17,10 @@ export default {
 <template>
     <main>
         <Search :searchEngines="$attrs.config.searchEngines"></Search>
+
+        <!-- <mdui-divider></mdui-divider> -->
+
+        <Content :pages="$attrs.config.pages"></Content>
     </main>
 </template>
 
