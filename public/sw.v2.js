@@ -89,7 +89,7 @@ self.addEventListener("fetch", async function (e) {
             e.respondWith(onlineFirst(e.request, cacheStorageKey + "Main"));
             return;
         } else {
-            e.respondWith(onlineFirst(e.request, cacheStorageKey + "ExternalRes"));
+            e.respondWith(cacheFirst(e.request, cacheStorageKey + "ExternalRes"));
             return;
         };
     }
