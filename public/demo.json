@@ -1,7 +1,7 @@
 {
-    "title": "realtvop's startpage",
+    "title": "startpages demo",
     "avatar": "",
-    "userName": "GUEST",
+    "userName": "demo user",
     "color": "#64c8ff",
     "searchEngines": [
         { "name": "Google", "url": "https://www.google.com/search?q=%keyword%" },
