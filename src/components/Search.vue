@@ -35,9 +35,11 @@ export default {
             <mdui-menu-item value="item-1">Item 1</mdui-menu-item>
             <mdui-menu-item value="item-2">Item 2</mdui-menu-item>
         </mdui-select> -->
-        <mdui-text-field :label="`Search ${selectedEngine.name}`" clearable @input="keyword = $event.target.value" @keyup.enter="doSearch">
+        <mdui-text-field :label="`Search ${selectedEngine.name}`" clearable @input="keyword = $event.target.value" @keyup.enter="doSearch" helper="↑ Choose search engine">
             <mdui-dropdown slot="icon">
-                <mdui-button slot="trigger" icon="search"> {{ selectedEngine.name }}</mdui-button>
+                <!-- <mdui-button slot="trigger" icon="search">{{ selectedEngine.name }}</mdui-button> -->
+                <mdui-button-icon slot="trigger" icon="search" variant="filled"></mdui-button-icon>
+                <!-- <mdui-button slot="trigger" icon="search"></mdui-button> -->
                 <mdui-menu>
                     <mdui-menu-item v-for="searchEngine in settings.searchEngines" @click="selectedEngine = searchEngine; selectedEngine.id = settings.searchEngines.indexOf(searchEngine)" :selected="selectedEngine.id == settings.searchEngines.indexOf(searchEngine)">{{ searchEngine.name }}</mdui-menu-item>
                 </mdui-menu>
