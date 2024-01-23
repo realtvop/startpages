@@ -8,6 +8,7 @@ import Clock from './Clock.vue';
 export default {
     data() {
         return {
+            fullscreenClock: false,
         };
     },
     mounted() {
@@ -17,13 +18,10 @@ export default {
 
 <template>
     <main>
-        <Clock v-if="$attrs.userConfig.showClock"></Clock>
+        <Clock v-if="$attrs.userConfig.showClock" :fullscreen="fullscreenClock" @click="fullscreenClock = !fullscreenClock"></Clock>
 
-        <Search :searchEngines="$attrs.config.searchEngines"></Search>
-
-        <!-- <mdui-divider></mdui-divider> -->
-
-        <Content :pages="$attrs.config.pages"></Content>
+        <Search :searchEngines="$attrs.config.searchEngines" v-if="!fullscreenClock"></Search>
+        <Content :pages="$attrs.config.pages" v-if="!fullscreenClock"></Content>
     </main>
 </template>
 

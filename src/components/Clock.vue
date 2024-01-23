@@ -53,7 +53,18 @@ export default {
 </script>
 
 <template>
-    <div class="timeContainer">
+    <div class="fullscreenClock" v-if="$attrs.fullscreen">
+        <span id="currentTime">{{ currentTime }}</span>
+        <mdui-linear-progress :value="dayProgress"></mdui-linear-progress>
+        <div class="currentTimeContainer">
+            <div class="info" style="height: unset;">
+                <span class="info-small info-left">{{ usrTimeZone }}</span>
+                <span class="info-small info-left">{{ cnLunarDate }} {{ currentYear }}</span>
+            </div>
+            <span class="info-large">{{ currentDate }}</span>
+        </div>
+    </div>
+    <div class="timeContainer" v-else>
         <div class="currentTimeContainer">
             <span id="currentTime">{{ currentTime }}</span>
             <div class="info">
@@ -76,6 +87,16 @@ export default {
     height: 15vw;
     margin-top: -3vw;
 }
+.fullscreenClock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    height: 100%;
+    width: 100%;
+    margin-top: -4rem;
+}
 
 .currentTimeContainer {
     width: 100%;
@@ -93,6 +114,9 @@ export default {
     /* line-height: 12.5vw; */
     font-weight: bold;
 }
+.fullscreenClock>#currentTime {
+    font-size: calc(100vw / 5.5) !important;
+}
 
 .info {
     display: flex;
@@ -109,12 +133,15 @@ export default {
     line-height: normal;
     font-size: 4vw;
 }
-
 .info-small {
     align-self: flex-end;
     /* margin-left: 2rem; */
     line-height: normal;
-    font-size: 1vw;
+    font-size: 1.25vw;
+}
+
+.info-left {
+    align-self: flex-start !important;
 }
 
 mdui-linear-progress {
