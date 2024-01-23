@@ -31,5 +31,6 @@ main {
     width: calc(100% - 4rem);
     padding-left: 2rem;
     padding-right: 2rem;
+    overflow-x: hidden;
 }
 </style>

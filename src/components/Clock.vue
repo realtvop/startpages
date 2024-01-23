@@ -87,15 +87,31 @@ export default {
     height: 15vw;
     margin-top: -3vw;
 }
+
 .fullscreenClock {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    height: 100%;
-    width: 100%;
-    margin-top: -4rem;
+    @media (orientation: portrait) {
+        transform: rotate(90deg);
+        height: calc(100vh - 4rem);
+        --length-unit: calc((100vh - 4rem) / 100);
+        /* width: calc(475 * var(--length-unit) / 5.5); */
+        /* width: calc(100vw - 4rem); */
+        margin-top: -1vh;
+        /* width: calc(100% - (50 * var(--length-unit) / 5.5)); */
+        /* overflow-y: hidden; */
+        /* width: 100vw; */
+        /* height: 100vh; */
+    }
+    @media (orientation: landscape) {
+        --length-unit: 1vw;
+        width: 100%;
+        height: calc(100% + 3rem);
+        margin-top: -2.5rem;
+    }
 }
 
 .currentTimeContainer {
@@ -104,6 +120,9 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    @media (orientation: portrait) {
+        width: calc(500 * var(--length-unit) / 5.5) !important;
+    }
 }
 
 #currentTime {
@@ -114,8 +133,15 @@ export default {
     /* line-height: 12.5vw; */
     font-weight: bold;
 }
+
 .fullscreenClock>#currentTime {
-    font-size: calc(100vw / 5.5) !important;
+    /* @media (orientation: portrait) {
+        font-size: calc(100vh / 5.5) !important;
+    }
+    @media (orientation: landscape) {
+        font-size: calc(100vw / 5.5) !important;
+    } */
+    font-size: calc(100 * var(--length-unit) / 5.5) !important;
 }
 
 .info {
@@ -133,6 +159,7 @@ export default {
     line-height: normal;
     font-size: 4vw;
 }
+
 .info-small {
     align-self: flex-end;
     /* margin-left: 2rem; */
@@ -142,6 +169,10 @@ export default {
 
 .info-left {
     align-self: flex-start !important;
+    font-size: calc(1.25 * var(--length-unit));
+}
+.currentTimeContainer.info-large {
+    font-size: calc(4 * var(--length-unit));
 }
 
 mdui-linear-progress {
@@ -150,6 +181,12 @@ mdui-linear-progress {
     /* width: calc(100% - 4rem); */
     margin-top: -2.5vw;
     width: 100%;
+}
+.fullscreenClock>mdui-linear-progress {
+    margin-top: calc(-2.5 * var(--length-unit));
+    @media (orientation: portrait) {
+        width: calc(500 * var(--length-unit) / 5.5);
+    }
 }
 
 /* #currentTime {
