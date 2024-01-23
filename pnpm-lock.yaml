@@ -13,6 +13,9 @@ devDependencies:
   '@vitejs/plugin-vue':
     specifier: ^4.5.2
     version: registry.npmjs.org/@vitejs/plugin-vue@4.6.2(vite@5.0.12)(vue@3.4.15)
+  lunar-fun:
+    specifier: ^2.0.0
+    version: registry.npmjs.org/lunar-fun@2.0.0
   vite:
     specifier: ^5.0.8
     version: registry.npmjs.org/vite@5.0.12
@@ -599,6 +602,12 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  registry.npmjs.org/lunar-fun@2.0.0:
+    resolution: {integrity: sha512-vdsuhyjg8P3JOMTzXYbRr1a7p1QL3p6KXSYrk8AeZgNSpv5IDUzKs+rCXKyxJY058ZusA6Vy0Ts3y2lZvzQNiQ==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/lunar-fun/-/lunar-fun-2.0.0.tgz}
+    name: lunar-fun
+    version: 2.0.0
+    dev: true
 
   registry.npmjs.org/magic-string@0.30.5:
     resolution: {integrity: sha512-7xlpfBaQaP/T6Vh8MO/EqXSW5En6INHEvEXQiuff7Gku0PWjU3uf6w/j9o7O+SpB5fOAkrI5HeoNgwjEO0pFsA==, registry: https://registry.npmjs.com/, tarball: https://registry.npmjs.org/magic-string/-/magic-string-0.30.5.tgz}

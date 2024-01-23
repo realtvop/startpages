@@ -16,6 +16,7 @@ export default {
             },
             userConfig: {
                 useJBM: false,
+                showClock: false,
             },
         };
     },
@@ -95,11 +96,11 @@ export default {
                 {{ config.title || "realtvop's startpage" }}
             </mdui-top-app-bar-title>
             <div style="flex-grow: 1"></div>
-            <UserInfo :config="config" :openSetConfigDialog="() => setConfigDialog.open = true" :changeFont="() => userConfig.useJBM = !userConfig.useJBM" :useJBM="userConfig.useJBM"></UserInfo>
+            <UserInfo :config="config" :openSetConfigDialog="() => setConfigDialog.open = true" :changeFont="() => userConfig.useJBM = !userConfig.useJBM" :showClock="userConfig.showClock" :toggleClock="() => userConfig.showClock = !userConfig.showClock" :useJBM="userConfig.useJBM"></UserInfo>
         </mdui-top-app-bar>
 
         <mdui-layout-main>
-            <Main :config="config"></Main>
+            <Main :config="config" :userConfig="userConfig"></Main>
         </mdui-layout-main>
     </mdui-layout>
 </template>

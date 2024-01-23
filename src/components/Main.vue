@@ -1,6 +1,7 @@
 <script setup>
 import Search from './Search.vue';
 import Content from './Content.vue';
+import Clock from './Clock.vue';
 </script>
 
 <script>
@@ -16,6 +17,8 @@ export default {
 
 <template>
     <main>
+        <Clock v-if="$attrs.userConfig.showClock"></Clock>
+
         <Search :searchEngines="$attrs.config.searchEngines"></Search>
 
         <!-- <mdui-divider></mdui-divider> -->
