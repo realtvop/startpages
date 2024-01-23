@@ -2,9 +2,20 @@
 import Search from './Search.vue';
 </script>
 
+<script>
+export default {
+    data() {
+        return {
+        };
+    },
+    mounted() {
+    },
+}
+</script>
+
 <template>
     <main>
-        <Search></Search>
+        <Search :searchEngines="$attrs.config.searchEngines"></Search>
     </main>
 </template>
 
