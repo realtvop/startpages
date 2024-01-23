@@ -19,4 +19,7 @@ import Main from './components/Main.vue';
 </template>
 
 <style scoped>
+mdui-top-app-bar-title {
+  margin-left: 0.5rem;
+}
 </style>
