@@ -1,0 +1,49 @@
+{
+    "title": "realtvop's startpage",
+    "avatar": "https://realtvop.eu.org/79362411.jpeg",
+    "userName": "飞机上的长电视",
+    "color": "#64c8ff",
+    "searchEngines": [
+        { "name": "Google", "url": "https://www.google.com/search?q=%keyword%" },
+        { "name": "Bing", "url": "https://www.bing.com/search?form=&q=%keyword%" },
+        { "name": "DuckDuckGo", "url": "https://duckduckgo.com/?q=%keyword%" },
+        { "name": "Stack Overflow", "url": "https://stackoverflow.com/search?q=%keyword%" }
+    ],
+    "pages": [
+        {
+            "title": "This Project",
+            "links": [
+                {
+                    "url": "github.com/realtvop",
+                    "name": "realtvop's GitHub homepage",
+                    "description": "Author of this project."
+                },
+                {
+                    "url": "github.com/startpages",
+                    "name": "This project on GitHub"
+                },
+                {
+                    "url": "realtvop.eu.org",
+                    "description": "Author's website"
+                }
+            ]
+        },
+        {
+            "title": "Author's Other Projects",
+            "links": [
+                {
+                    "url": "phitogether.fun",
+                    "name": "PhiTogether",
+                    "description": "Community driven rhythm game",
+                    "icon": "//realtvop.eu.org/icons/phitogether.ico"
+                },
+                {
+                    "url": "phi.zone",
+                    "name": "PhiZone",
+                    "description": "A fanmade community for Phigros",
+                    "icon": "//realtvop.eu.org/icons/phizone.ico"
+                }
+            ]
+        }
+    ]
+}

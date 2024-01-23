@@ -25,3 +25,6 @@ dist-ssr
 
 /src/config/*.json
 !/src/config/*.example.json
+
+
+/public/realtvop.json

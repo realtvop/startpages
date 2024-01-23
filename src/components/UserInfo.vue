@@ -7,7 +7,7 @@
         <mdui-menu>
             <mdui-menu-item style="display: flex; width: 100%; align-items: center; justify-content: center;">Hi, {{
                 $attrs.config.userName || "Guest" }}</mdui-menu-item>
-            <mdui-menu-item>Set Config</mdui-menu-item>
+            <mdui-menu-item @click="$attrs.openSetConfigDialog()">Set Config</mdui-menu-item>
         </mdui-menu>
     </mdui-dropdown>
 </template>
