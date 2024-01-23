@@ -21,5 +21,12 @@
     </div>
     <div id="app"></div>
     <script type="module" src="/src/main.js"></script>
+    <script>
+      navigator.serviceWorker.register('/sw.v2.js', { scope: '/' })
+				.then(
+					registration => { return; },
+					err => console.log("SW_Reg_Failed: ", err)
+				);
+    </script>
   </body>
 </html>
