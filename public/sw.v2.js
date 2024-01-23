@@ -81,14 +81,17 @@ self.addEventListener("fetch", async function (e) {
     const currentUrlParsed = parseURL(self.location.href);
     if (e.request.url.startsWith("http")) {
         if (urlParsed.host === "res.realtvop.eu.org") {
-            e.respondWith(cacheFirst(e.request, cacheStorageKey + "res"));
+            e.respondWith(cacheFirst(e.request, cacheStorageKey + "Res"));
             return;
         } else if (urlParsed.path.endsWith(".json")) {
             return;
         } else if (urlParsed.host == currentUrlParsed.host) {
             e.respondWith(onlineFirst(e.request, cacheStorageKey + "Main"));
             return;
-        } else return;
+        } else {
+            e.respondWith(onlineFirst(e.request, cacheStorageKey + "ExternalRes"));
+            return;
+        };
     }
     return;
 });
