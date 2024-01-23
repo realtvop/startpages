@@ -89,6 +89,7 @@ export default {
 }
 
 .fullscreenClock {
+    font-family: 'JetBrainsMono';
     display: flex;
     flex-direction: column;
     align-items: center;
