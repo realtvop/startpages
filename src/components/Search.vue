@@ -62,11 +62,12 @@ export default {
             if (this.keyword.startsWith("!")) {
                 const bangTxt = parsedBang.slice(1);
                 const se = this.bangs[bangTxt.toLowerCase()];
-                if (se) {
+                const restKeyword = this.keyword.slice(parsedBang.length + 1)
+                if (se && restKeyword) {
                     result.push({
                         icon: 'lightbulb',
                         text: `Bang: ${se.name}`,
-                        keyword: this.keyword.slice(parsedBang.length + 1),
+                        keyword: restKeyword,
                     });
                 } else {
                     if (bangTxt.length)
