@@ -24,14 +24,10 @@ export default {
     methods: {
         doSearch() {
             if (!this.keyword) return;
-            
+
             // bang
             const parsedBang = this.keyword.split(" ", 1)[0];
-            const bang = this.bangs[(parsedBang.startsWith("!") ? parsedBang.slice(1) : parsedBang).toLowerCase()];
-            if (bang) {
-                this.selectedEngine = bang;
-                this.keyword = this.keyword.slice(parsedBang.length + 1);
-            }
+            this.bang(parsedBang);
 
             const a = document.createElement("a");
             a.target = "_top";
@@ -45,17 +41,51 @@ export default {
             return url.replace("%keyword%", this.keyword);
         },
         switchengine() {
-            const bang = this.bangs[(this.keyword.startsWith("!") ? this.keyword.slice(1) : this.keyword).toLowerCase()];
-            if (bang) {
-                this.selectedEngine = bang;
-                this.keyword = '';
-            } else {
+            if (!this.bang(this.keyword))
                 this.selectedEngine = this.searchEngines[this.selectedEngine.id + 1] || this.searchEngines[0];
+        },
+        bang(bang) {
+            const se = this.bangs[(bang.startsWith("!") ? bang.slice(1) : bang).toLowerCase()];
+            if (se) {
+                this.selectedEngine = se;
+                this.keyword = this.keyword.slice(bang.length + 1);
+                return true;
             }
+            return false;
         },
     },
     computed: {
         results() {
+            const result = [];
+
+            const parsedBang = this.keyword.split(" ", 1)[0];
+            if (this.keyword.startsWith("!")) {
+                const bangTxt = parsedBang.slice(1);
+                const se = this.bangs[bangTxt.toLowerCase()];
+                if (se) {
+                    result.push({
+                        icon: 'lightbulb',
+                        text: `Bang: ${se.name}`,
+                    });
+                } else {
+                    if (bangTxt.length)
+                        for (const bang in this.bangs) {
+                            if (bang.startsWith(bangTxt))
+                                result.push({
+                                    icon: 'lightbulb',
+                                    text: `Bang Suggest: ${bang}`,
+                                    keyword: this.bangs[bang].name,
+                                });
+                        }
+                    else
+                        result.push({
+                            icon: 'lightbulb',
+                            text: `Bang`,
+                            keyword: "",
+                        });
+                }
+            }
+
             const search = {
                 icon: 'search',
                 text: `${this.selectedEngine.name} Search`,
@@ -66,11 +96,9 @@ export default {
                 text: `Open URL`,
                 url: formatExternalURL(this.keyword),
             };
-            if (this.isInputURL) {
-                return [open, search];
-            } else {
-                return [search, open];
-            }
+            result.push(...(this.isInputURL ? [open, search] : [search, open]));
+
+            return result;
         },
         isInputURL() {
             return this.keyword.startsWith("//") || this.keyword.startsWith("http") || this.keyword.endsWith("/");
@@ -114,8 +142,9 @@ export default {
         </mdui-text-field>
         <mdui-menu v-if="(true || focused || resultclicked) && keyword" submenu-open-delay="200" submenu-close-delay="200"
             @focus="resultclicked = true">
-            <mdui-menu-item v-for="result in results" :icon="result.icon" target="_top" :href="result.url">{{ result.text }} - {{ keyword
-            }}</mdui-menu-item>
+            <mdui-menu-item v-for="result in results" :icon="result.icon" target="_top" :href="result.url">{{ result.text }}
+                - {{ result.keyword || keyword
+                }}</mdui-menu-item>
         </mdui-menu>
     </div>
 </template>
