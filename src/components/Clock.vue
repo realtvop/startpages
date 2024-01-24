@@ -30,7 +30,7 @@ export default {
 
             this.currentTime = `${hours}:${minutes}:${seconds}`;
             const currentDate = `${nowTexts[0]} ${nowTexts[1]} ${nowTexts[2]}`;
-            if (currentDate != this.currentDate || !this.cnLunarDate) this.cnLunarDate = getLunarDate(now);
+            if (this.$attrs.showLunarDate && (currentDate != this.currentDate || !this.cnLunarDate)) this.cnLunarDate = getLunarDate(now);
             this.currentDate = currentDate;
             this.currentYear = nowTexts[3];
             this.dayProgress = (nowTime[0] * 3600 + nowTime[1] * 60 + nowTime[2]) / 86400;
@@ -70,7 +70,7 @@ export default {
             <div class="info">
                 <span class="info-small">{{ usrTimeZone }}</span>
                 <span class="info-large">{{ currentDate }}</span>
-                <span class="info-small">{{ cnLunarDate }} {{ currentYear }}</span>
+                <span class="info-small">{{ $attrs.showLunarDate ? cnLunarDate : '' }} {{ currentYear }}</span>
             </div>
         </div>
         <mdui-linear-progress :value="dayProgress"></mdui-linear-progress>

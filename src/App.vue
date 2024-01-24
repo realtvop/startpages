@@ -18,6 +18,7 @@ export default {
                 useJBM: false,
                 showClock: false,
                 autoFocusSearchBar: true,
+                showLunarDate: false,
             },
             online: navigator.onLine,
         };
@@ -99,7 +100,9 @@ export default {
             </mdui-top-app-bar-title>
             <div style="flex-grow: 1"></div>
             <mdui-button-icon icon="cloud_off" v-if="!online"></mdui-button-icon>
-            <UserInfo :config="config" :openSetConfigDialog="() => setConfigDialog.open = true" :changeFont="() => userConfig.useJBM = !userConfig.useJBM" :showClock="userConfig.showClock" :toggleClock="() => userConfig.showClock = !userConfig.showClock" :useJBM="userConfig.useJBM" :autoFocusSearchBar="userConfig.autoFocusSearchBar" :toggleAutoFocusSearchBar="() => userConfig.autoFocusSearchBar = !userConfig.autoFocusSearchBar"></UserInfo>
+            <UserInfo :config="config" :userConfig="userConfig"
+                :openSetConfigDialog="function () { setConfigDialog.open = true }"
+                :toggleUserConfig="function (key) { userConfig[key] = !userConfig[key] }"></UserInfo>
         </mdui-top-app-bar>
 
         <mdui-layout-main>
@@ -112,5 +115,4 @@ export default {
 mdui-layout>mdui-top-app-bar {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-}
-</style>
+}</style>

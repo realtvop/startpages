@@ -18,7 +18,7 @@ export default {
 
 <template>
     <main>
-        <Clock v-if="$attrs.userConfig.showClock" :fullscreen="fullscreenClock" @click="fullscreenClock = !fullscreenClock"></Clock>
+        <Clock v-if="$attrs.userConfig.showClock" :fullscreen="fullscreenClock" :showLunarDate="$attrs.userConfig.showLunarDate" @click="fullscreenClock = !fullscreenClock"></Clock>
 
         <Search :searchEngines="$attrs.config.searchEngines" :autofocus="$attrs.userConfig.autoFocusSearchBar" v-if="!fullscreenClock || !$attrs.userConfig.showClock"></Search>
         <Content :pages="$attrs.config.pages" v-if="!fullscreenClock || !$attrs.userConfig.showClock"></Content>
