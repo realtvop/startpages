@@ -66,6 +66,7 @@ export default {
                     result.push({
                         icon: 'lightbulb',
                         text: `Bang: ${se.name}`,
+                        keyword: this.keyword.slice(parsedBang.length + 1),
                     });
                 } else {
                     if (bangTxt.length)
