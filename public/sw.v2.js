@@ -53,11 +53,11 @@ function cacheOrOnline(request, key) {
 function onlineFirst(request, key) {
     return caches.open(key).then((cache) => {
         const offlineFetch = () => {
-            return cache.match(request).then((response) => {
+            return cache.match(request, { ignoreSearch: true, ignoreVary: true }).then((response) => {
                 return response;
             });
         };
-        if (!navigator.onLine) return offlineFetch;
+        if (!navigator.onLine) return offlineFetch();
         return fetch(request)
             .then((response) => {
                 if (response.ok) cache.put(request, response.clone());
