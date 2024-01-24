@@ -26,11 +26,11 @@ export default {
             if (!this.keyword) return;
             
             // bang
-            const parsedBang = this.keyword.split(" ", 2);
-            const bang = this.bangs[(parsedBang[0].startsWith("!") ? parsedBang[0].slice(1) : parsedBang[0]).toLowerCase()];
+            const parsedBang = this.keyword.split(" ", 1)[0];
+            const bang = this.bangs[(parsedBang.startsWith("!") ? parsedBang.slice(1) : parsedBang).toLowerCase()];
             if (bang) {
                 this.selectedEngine = bang;
-                this.keyword = parsedBang[1];
+                this.keyword = this.keyword.slice(parsedBang.length + 1);
             }
 
             const a = document.createElement("a");
