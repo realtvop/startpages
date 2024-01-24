@@ -44,7 +44,7 @@ function openPopup(url) {
     /* grid-template-columns: repeat(calc(100vw / 350px), 1fr); */
     grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     overflow-x: scroll;
-    gap: 10px;
+    gap: 0.1rem;
 }
 
 mdui-list-item {
