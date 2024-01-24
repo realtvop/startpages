@@ -19,6 +19,8 @@ export default {
         this.searchEngines = this.$attrs.searchEngines || [{ name: "Google", url: "https://www.google.com/search?q=%keyword%" }];
         this.selectedEngine = this.searchEngines && this.searchEngines[0] ? this.searchEngines[0] : { name: "Google", url: "https://www.google.com/search?q=%keyword%" };
         this.selectedEngine.id = this.selectedEngine.id || 0;
+        this.bangs = {};
+        for (const engine of this.searchEngines) if (engine.bang) this.bangs[engine.bang.toLowerCase()] = engine;
         this.keyword = "";
     },
     methods: {
@@ -62,7 +64,7 @@ export default {
             if (this.keyword.startsWith("!") || this.keyword.startsWith("！")) {
                 const bangTxt = parsedBang.slice(1);
                 const se = this.bangs[bangTxt.toLowerCase()];
-                const restKeyword = this.keyword.slice(parsedBang.length + 1)
+                const restKeyword = this.keyword.slice(parsedBang.length + 1);
                 if (se && restKeyword) {
                     result.push({
                         icon: 'lightbulb',
