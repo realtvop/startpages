@@ -166,7 +166,7 @@ export default {
                         }} {{ searchEngine.bang ? `<${searchEngine.bang.join(" | ").toLowerCase()}>` : '' }}</mdui-menu-item>
                     </mdui-menu>
                 </mdui-dropdown>
-                <mdui-button-icon slot=" end-icon" icon="arrow_forward" @click="doSearch"></mdui-button-icon>
+                <mdui-button-icon slot="end-icon" icon="arrow_forward" @click="doSearch"></mdui-button-icon>
         </mdui-text-field>
         <mdui-menu v-if="(true || focused || resultclicked) && keyword" submenu-open-delay="200" submenu-close-delay="200"
             @focus="resultclicked = true">
