@@ -21,7 +21,7 @@ export default {
         this.selectedEngine = this.searchEngines && this.searchEngines[0] ? this.searchEngines[0] : { name: "Google", url: "https://www.google.com/search?q=%keyword%" };
         this.selectedEngine.id = this.selectedEngine.id || 0;
         this.bangs = {};
-        for (const engine of this.searchEngines) if (engine.bang) this.bangs[engine.bang.toLowerCase()] = engine;
+        for (const engine of this.searchEngines) if (engine.bang) for (const bang of engine.bang) this.bangs[bang.toLowerCase()] = engine;
         this.keyword = "";
     },
     methods: {
@@ -120,7 +120,7 @@ export default {
                 this.selectedEngine = this.searchEngines && this.searchEngines[0] ? this.searchEngines[0] : { name: "Google", url: "https://www.google.com/search?q=%keyword%" };
                 this.selectedEngine.id = this.selectedEngine.id || 0;
                 this.bangs = {};
-                for (const engine of this.searchEngines) if (engine.bang) this.bangs[engine.bang.toLowerCase()] = engine;
+        for (const engine of this.searchEngines) if (engine.bang) for (const bang of engine.bang) this.bangs[bang.toLowerCase()] = engine;
             },
         },
         selectedEngine: {
@@ -144,7 +144,7 @@ export default {
                     <mdui-menu-item v-for="searchEngine in searchEngines"
                         @click="selectedEngine = searchEngine; selectedEngine.id = searchEngines.indexOf(searchEngine)"
                         :selected="selectedEngine.id == searchEngines.indexOf(searchEngine)">{{ searchEngine.name
-                        }} {{ searchEngine.bang ? `<${searchEngine.bang.toLowerCase()}>` : '' }}</mdui-menu-item>
+                        }} {{ searchEngine.bang ? `<${searchEngine.bang.join(" | ").toLowerCase()}>` : '' }}</mdui-menu-item>
                 </mdui-menu>
             </mdui-dropdown>
             <mdui-button-icon slot="end-icon" icon="arrow_forward" @click="doSearch"></mdui-button-icon>
@@ -166,10 +166,12 @@ export default {
     position: relative;
 }
 
+mdui-menu {
+    max-width: calc(100vw - 4rem) !important;
+}
 .search>mdui-menu {
     position: absolute;
     width: 100%;
-    max-width: unset !important;
     z-index: 114;
     background-color: rgb(var(--mdui-color-surface-container-highest));
     /* border-color: rgb(var(--mdui-color-on-primary)); */
