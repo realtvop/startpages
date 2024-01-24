@@ -121,6 +121,8 @@ export default {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+}
+.fullscreenClock>.currentTimeContainer {
     @media (orientation: portrait) {
         width: calc(500 * var(--length-unit) / 5.5) !important;
     }
