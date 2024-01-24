@@ -10,19 +10,48 @@ export default {
             searchEngines: [{ name: "Google", url: "https://www.google.com/search?q=%keyword%" }],
             selectedEngine: { name: "Google", url: "https://www.google.com/search?q=%keyword%" },
             keyword: "",
+            focused: false,
+            resultclicked: false,
         };
     },
     mounted() {
         this.searchEngines = this.$attrs.searchEngines || [{ name: "Google", url: "https://www.google.com/search?q=%keyword%" }];
         this.selectedEngine = this.searchEngines && this.searchEngines[0] ? this.searchEngines[0] : { name: "Google", url: "https://www.google.com/search?q=%keyword%" };
-        this.selectedEngine.id = this.selectedEngine.id | 0;
+        this.selectedEngine.id = this.selectedEngine.id || 0;
+        this.keyword = "";
     },
     methods: {
         doSearch() {
+            if (this.isInputURL) location.href = formatExternalURL(this.keyword);
+            else location.href = this.getSearchURL();
+        },
+        getSearchURL() {
             if (!this.selectedEngine || !this.selectedEngine.url) showSnackBar("Err: No search engine selected.")
             let url = formatExternalURL(this.selectedEngine.url);
             if (!url.includes("%keyword%")) url += "%keyword%";
-            location.href = url.replace("%keyword%", this.keyword);
+            return url.replace("%keyword%", this.keyword);
+        },
+    },
+    computed: {
+        results() {
+            const search = {
+                icon: 'search',
+                text: `${this.selectedEngine.name} Search`,
+                url: this.getSearchURL(),
+            };
+            const open = {
+                icon: 'link',
+                text: `Open URL`,
+                url: formatExternalURL(this.keyword),
+            };
+            if (this.isInputURL) {
+                return [open, search];
+            } else {
+                return [search, open];
+            }
+        },
+        isInputURL() {
+            return this.keyword.startsWith("//") || this.keyword.startsWith("http") || this.keyword.endsWith("/");
         },
     },
     watch: {
@@ -39,13 +68,10 @@ export default {
 
 <template>
     <div class="search">
-        <!-- <mdui-select value="item-1" label="Search engine">
-            <mdui-menu-item value="item-1">Item 1</mdui-menu-item>
-            <mdui-menu-item value="item-2">Item 2</mdui-menu-item>
-        </mdui-select> -->
         <mdui-text-field type="search" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
-            :label="`Search ${selectedEngine.name}`" clearable @input="keyword = $event.target.value"
-            @keyup.enter="doSearch" helper="↑ Choose search engine here" helper-on-focus :autofocus="$attrs.autofocus">
+            :label="`Search ${selectedEngine.name} or type a URL`" clearable
+            @input="keyword = $event.target.value; focused = true;" @keyup.enter="doSearch"
+            helper="↑ Choose search engine here" helper-on-focus :autofocus="$attrs.autofocus" @blur="focused = false">
             <mdui-dropdown slot="icon">
                 <mdui-button-icon slot="trigger" icon="search" variant="filled"></mdui-button-icon>
                 <mdui-menu>
@@ -57,13 +83,36 @@ export default {
             </mdui-dropdown>
             <mdui-button-icon slot="end-icon" icon="arrow_forward" @click="doSearch"></mdui-button-icon>
         </mdui-text-field>
+        <mdui-menu v-if="(focused || resultclicked) && keyword" submenu-open-delay="200" submenu-close-delay="200"
+            @focus="resultclicked = true">
+            <mdui-menu-item v-for="result in results" :icon="result.icon" :href="result.url">{{ result.text }} - {{ keyword
+            }}</mdui-menu-item>
+        </mdui-menu>
     </div>
 </template>
 
 <style scoped>
 .search {
-    display: flex;
+    /* display: flex; */
     width: 100%;
     align-items: center;
+    position: relative;
+}
+
+.search>mdui-menu {
+    position: absolute;
+    width: 100%;
+    max-width: unset !important;
+    z-index: 114;
+    background-color: rgb(var(--mdui-color-surface-container-highest));
+    /* border-color: rgb(var(--mdui-color-on-primary)); */
+    /* border: 2px solid rgb(var(--mdui-color-on-primary)); */
+    border-radius: 0 0 1rem 1rem;
+    border-width: 1px;
+    box-shadow: 0px 5px 1rem rgba(0, 0, 0, 0.3);
+    /* overflow: hidden; */
+    padding-top: 0;
+    padding-bottom: 1rem;
+    margin-top: -1.5rem;
 }
 </style>
