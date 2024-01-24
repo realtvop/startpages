@@ -12,6 +12,7 @@ export default {
             keyword: "",
             focused: false,
             resultclicked: false,
+            bangs: {},
         };
     },
     mounted() {
@@ -22,6 +23,16 @@ export default {
     },
     methods: {
         doSearch() {
+            if (!this.keyword) return;
+            
+            // bang
+            const parsedBang = this.keyword.split(" ", 2);
+            const bang = this.bangs[(parsedBang[0].startsWith("!") ? parsedBang[0].slice(1) : parsedBang[0]).toLowerCase()];
+            if (bang) {
+                this.selectedEngine = bang;
+                this.keyword = parsedBang[1];
+            }
+
             const a = document.createElement("a");
             a.target = "_top";
             a.href = this.isInputURL ? formatExternalURL(this.keyword) : this.getSearchURL();
@@ -32,6 +43,15 @@ export default {
             let url = formatExternalURL(this.selectedEngine.url);
             if (!url.includes("%keyword%")) url += "%keyword%";
             return url.replace("%keyword%", this.keyword);
+        },
+        switchengine() {
+            const bang = this.bangs[(this.keyword.startsWith("!") ? this.keyword.slice(1) : this.keyword).toLowerCase()];
+            if (bang) {
+                this.selectedEngine = bang;
+                this.keyword = '';
+            } else {
+                this.selectedEngine = this.searchEngines[this.selectedEngine.id + 1] || this.searchEngines[0];
+            }
         },
     },
     computed: {
@@ -61,7 +81,14 @@ export default {
             handler(newVal) {
                 this.searchEngines = this.$attrs.searchEngines || [{ name: "Google", url: "https://www.google.com/search?q=%keyword%" }];
                 this.selectedEngine = this.searchEngines && this.searchEngines[0] ? this.searchEngines[0] : { name: "Google", url: "https://www.google.com/search?q=%keyword%" };
-                this.selectedEngine.id = this.selectedEngine.id | 0;
+                this.selectedEngine.id = this.selectedEngine.id || 0;
+                this.bangs = {};
+                for (const engine of this.searchEngines) if (engine.bang) this.bangs[engine.bang.toLowerCase()] = engine;
+            },
+        },
+        selectedEngine: {
+            handler() {
+                this.selectedEngine.id = this.selectedEngine.id || this.searchEngines.indexOf(this.selectedEngine);
             },
         },
     },
@@ -71,21 +98,21 @@ export default {
 <template>
     <div class="search">
         <mdui-text-field type="search" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
-            :label="`Search ${selectedEngine.name} or type a URL`" clearable
-            @input="keyword = $event.target.value; focused = true;" @keyup.enter="doSearch"
-            helper="↑ Choose search engine here" helper-on-focus :autofocus="$attrs.autofocus" @blur="focused = false">
+            :label="`Search ${selectedEngine.name} or type a URL`" clearable @keydown.tab="$event.preventDefault()"
+            @input="keyword = $event.target.value; focused = true;" @keyup.enter="doSearch" @keyup.tab="switchengine"
+            helper="↑ Choose search engine here" helper-on-focus :autofocus="$attrs.autofocus" :value="keyword">
             <mdui-dropdown slot="icon">
                 <mdui-button-icon slot="trigger" icon="search" variant="filled"></mdui-button-icon>
                 <mdui-menu>
                     <mdui-menu-item v-for="searchEngine in searchEngines"
                         @click="selectedEngine = searchEngine; selectedEngine.id = searchEngines.indexOf(searchEngine)"
                         :selected="selectedEngine.id == searchEngines.indexOf(searchEngine)">{{ searchEngine.name
-                        }}</mdui-menu-item>
+                        }} {{ searchEngine.bang ? `<${searchEngine.bang.toLowerCase()}>` : '' }}</mdui-menu-item>
                 </mdui-menu>
             </mdui-dropdown>
             <mdui-button-icon slot="end-icon" icon="arrow_forward" @click="doSearch"></mdui-button-icon>
         </mdui-text-field>
-        <mdui-menu v-if="(focused || resultclicked) && keyword" submenu-open-delay="200" submenu-close-delay="200"
+        <mdui-menu v-if="(true || focused || resultclicked) && keyword" submenu-open-delay="200" submenu-close-delay="200"
             @focus="resultclicked = true">
             <mdui-menu-item v-for="result in results" :icon="result.icon" target="_top" :href="result.url">{{ result.text }} - {{ keyword
             }}</mdui-menu-item>
