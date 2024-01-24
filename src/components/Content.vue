@@ -6,6 +6,10 @@ function getIcon(url) {
     const parsed = new window.URL(url);
     return `${parsed.origin}/favicon.ico`;
 }
+
+function openPopup(url) {
+    window.open(url, "popupWindow", "width=600,height=400");
+}
 </script>
 
 <template>
@@ -14,7 +18,7 @@ function getIcon(url) {
         <div class="content">
             <h4>{{ column.title || "New Column" }}</h4>
             <mdui-list style="max-width: 100%;">
-                <mdui-list-item v-for="link in column.links" target="_top" :href="formatExternalURL(link.url)" rounded>
+                <mdui-list-item v-for="link in column.links" @click="link.popup ? openPopup(link.url) : null" target="_top" :href="link.popup ? null : formatExternalURL(link.url)" rounded>
                     {{ link.name || link.url }}
                     <span slot="description" v-if="link.description">{{ link.description }}</span>
                     <mdui-avatar slot="icon" :src="link.icon || getIcon(link.url)"></mdui-avatar>
