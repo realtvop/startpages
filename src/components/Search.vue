@@ -13,6 +13,7 @@ export default {
             focused: false,
             resultclicked: false,
             bangs: {},
+            primaryBang: '',
         };
     },
     mounted() {
@@ -43,13 +44,13 @@ export default {
             return url.replace("%keyword%", this.keyword);
         },
         switchengine() {
-            if (!this.bang(this.keyword))
+            if (!this.bang(this.keyword, this.primaryBang))
                 this.selectedEngine = this.searchEngines[this.selectedEngine.id + 1] || this.searchEngines[0];
         },
-        bang(bang) {
+        bang(bang, primary) {
             const se = this.bangs[((bang.startsWith("!") || this.keyword.startsWith("！")) ? bang.slice(1) : bang).toLowerCase()];
-            if (se) {
-                this.selectedEngine = se;
+            if (se || primary) {
+                this.selectedEngine = se || this.bangs[primary];
                 this.keyword = this.keyword.slice(bang.length + 1);
                 return true;
             }
@@ -61,6 +62,7 @@ export default {
             const result = [];
 
             const parsedBang = this.keyword.split(" ", 1)[0];
+            let primaryBang = '';
             if (this.keyword.startsWith("!") || this.keyword.startsWith("！")) {
                 const bangTxt = parsedBang.slice(1);
                 const se = this.bangs[bangTxt.toLowerCase()];
@@ -72,16 +74,18 @@ export default {
                         keyword: restKeyword,
                     });
                 } else {
-                    if (bangTxt.length)
+                    if (bangTxt.length) {
                         for (const bang in this.bangs) {
-                            if (bang.startsWith(bangTxt))
+                            if (bang.startsWith(bangTxt)) {
+                                primaryBang = primaryBang || bang;
                                 result.push({
                                     icon: 'lightbulb',
                                     text: `Bang Suggest: ${bang}`,
                                     keyword: this.bangs[bang].name,
                                 });
+                            }
                         }
-                    else
+                    } else
                         result.push({
                             icon: 'lightbulb',
                             text: `Bang`,
@@ -89,6 +93,7 @@ export default {
                         });
                 }
             }
+            this.primaryBang = primaryBang;
 
             const search = {
                 icon: 'search',
