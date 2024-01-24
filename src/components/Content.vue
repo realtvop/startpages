@@ -14,7 +14,7 @@ function getIcon(url) {
         <div class="content">
             <h4>{{ column.title || "New Column" }}</h4>
             <mdui-list style="max-width: 100%;">
-                <mdui-list-item v-for="link in column.links" :href="formatExternalURL(link.url)" rounded>
+                <mdui-list-item v-for="link in column.links" target="_top" :href="formatExternalURL(link.url)" rounded>
                     {{ link.name || link.url }}
                     <span slot="description" v-if="link.description">{{ link.description }}</span>
                     <mdui-avatar slot="icon" :src="link.icon || getIcon(link.url)"></mdui-avatar>

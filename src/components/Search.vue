@@ -22,11 +22,13 @@ export default {
     },
     methods: {
         doSearch() {
-            if (this.isInputURL) location.href = formatExternalURL(this.keyword);
-            else location.href = this.getSearchURL();
+            const a = document.createElement("a");
+            a.target = "_top";
+            a.href = this.isInputURL ? formatExternalURL(this.keyword) : this.getSearchURL();
+            a.click();
         },
         getSearchURL() {
-            if (!this.selectedEngine || !this.selectedEngine.url) showSnackBar("Err: No search engine selected.")
+            if (!this.selectedEngine || !this.selectedEngine.url) showSnackBar("Err: No search engine selected.");
             let url = formatExternalURL(this.selectedEngine.url);
             if (!url.includes("%keyword%")) url += "%keyword%";
             return url.replace("%keyword%", this.keyword);
@@ -85,7 +87,7 @@ export default {
         </mdui-text-field>
         <mdui-menu v-if="(focused || resultclicked) && keyword" submenu-open-delay="200" submenu-close-delay="200"
             @focus="resultclicked = true">
-            <mdui-menu-item v-for="result in results" :icon="result.icon" :href="result.url">{{ result.text }} - {{ keyword
+            <mdui-menu-item v-for="result in results" :icon="result.icon" target="_top" :href="result.url">{{ result.text }} - {{ keyword
             }}</mdui-menu-item>
         </mdui-menu>
     </div>
