@@ -19,6 +19,7 @@ export default {
                 showClock: false,
                 autoFocusSearchBar: true,
             },
+            online: navigator.onLine,
         };
     },
     mounted() {
@@ -35,7 +36,7 @@ export default {
                 showSnackBar("Config loading: ERROR");
                 this.config = defaultConfig;
             }
-            if (configURL && navigator.onLine) this.loadConfigOnline(configURL, true);
+            if (configURL && this.online) this.loadConfigOnline(configURL, true);
         }
         const userConfig = localStorage.getItem("userConfig");
         if (userConfig)
@@ -97,6 +98,7 @@ export default {
                 {{ config.title || "realtvop's startpage" }}
             </mdui-top-app-bar-title>
             <div style="flex-grow: 1"></div>
+            <mdui-button-icon icon="cloud_off" v-if="!online"></mdui-button-icon>
             <UserInfo :config="config" :openSetConfigDialog="() => setConfigDialog.open = true" :changeFont="() => userConfig.useJBM = !userConfig.useJBM" :showClock="userConfig.showClock" :toggleClock="() => userConfig.showClock = !userConfig.showClock" :useJBM="userConfig.useJBM" :autoFocusSearchBar="userConfig.autoFocusSearchBar" :toggleAutoFocusSearchBar="() => userConfig.autoFocusSearchBar = !userConfig.autoFocusSearchBar"></UserInfo>
         </mdui-top-app-bar>
 
