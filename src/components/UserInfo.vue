@@ -9,6 +9,7 @@
                 $attrs.config.userName || "Guest" }}</mdui-menu-item>
             <mdui-menu-item @click="$attrs.changeFont()"><mdui-checkbox :checked="$attrs.useJBM" @input="$attrs.changeFont()">Use JetBrains Mono</mdui-checkbox></mdui-menu-item>
             <mdui-menu-item @click="$attrs.toggleClock()"><mdui-checkbox :checked="$attrs.showClock" @input="$attrs.toggleClock()">Show Clock</mdui-checkbox></mdui-menu-item>
+            <mdui-menu-item @click="$attrs.toggleAutoFocusSearchBar()"><mdui-checkbox :checked="$attrs.autoFocusSearchBar" @input="$attrs.toggleAutoFocusSearchBar()">Search Bar Auto Focus</mdui-checkbox></mdui-menu-item>
             <mdui-menu-item @click="$attrs.openSetConfigDialog()">Settings</mdui-menu-item>
         </mdui-menu>
     </mdui-dropdown>
