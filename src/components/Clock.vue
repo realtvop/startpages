@@ -14,11 +14,11 @@ export default {
             cnLunarDate: '',
         };
     },
-    mounted() {
+    async mounted() {
         this.updateTime();
     },
     methods: {
-        updateTime() {
+        async updateTime() {
             const now = new Date();
             const nowTexts = now.toString().split(" ");
             if (!this.usrTimeZone) this.usrTimeZone = now.toString().split("(")[1].slice(0, -1);

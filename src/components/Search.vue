@@ -19,7 +19,7 @@ export default {
             forceFocus: false,
         };
     },
-    mounted() {
+    async mounted() {
         this.searchEngines = this.$attrs.searchEngines || [{ name: "Google", url: "https://www.google.com/search?q=%keyword%" }];
         this.selectedEngine = this.searchEngines && this.searchEngines[0] ? this.searchEngines[0] : { name: "Google", url: "https://www.google.com/search?q=%keyword%" };
         this.selectedEngine.id = this.selectedEngine.id || 0;
@@ -133,7 +133,7 @@ export default {
     },
     watch: {
         "$attrs.searchEngines": {
-            handler(newVal) {
+            async handler(newVal) {
                 this.searchEngines = this.$attrs.searchEngines || [{ name: "Google", url: "https://www.google.com/search?q=%keyword%" }];
                 this.selectedEngine = this.searchEngines && this.searchEngines[0] ? this.searchEngines[0] : { name: "Google", url: "https://www.google.com/search?q=%keyword%" };
                 this.selectedEngine.id = this.selectedEngine.id || 0;
@@ -142,7 +142,7 @@ export default {
             },
         },
         selectedEngine: {
-            handler() {
+            async handler() {
                 this.selectedEngine.id = this.selectedEngine.id || this.searchEngines.indexOf(this.selectedEngine);
             },
         },

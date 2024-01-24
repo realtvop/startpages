@@ -22,7 +22,7 @@ export default {
             online: navigator.onLine,
         };
     },
-    mounted() {
+    async mounted() {
         const configURL = localStorage.getItem("configURL");
         const configTxt = localStorage.getItem("config");
         if (!configTxt) {
@@ -49,7 +49,7 @@ export default {
             }
     },
     methods: {
-        loadConfigOnline(url, dontLoadDefault) {
+        async loadConfigOnline(url, dontLoadDefault) {
             fetch(url)
                 // .then(r => r.json())
                 .then(r => r.text())
@@ -71,14 +71,14 @@ export default {
     },
     watch: {
         config: {
-            handler(newVal) {
+            async handler(newVal) {
                 // globalConfig = this.config = newVal;
                 localStorage.setItem("config", JSON.stringify(newVal));
                 window.mdui.setColorScheme(newVal.color || "#64c8ff");
             },
         },
         userConfig: {
-            handler(newVal) {
+            async handler(newVal) {
                 localStorage.setItem("userConfig", JSON.stringify(newVal));
                 // this.loadFont();
                 window.document.body.style.fontFamily = newVal.useJBM ? 'JetBrainsMono' : 'Roboto, Noto, Helvetica, Arial, sans-serif';
