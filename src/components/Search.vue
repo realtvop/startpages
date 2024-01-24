@@ -45,7 +45,7 @@ export default {
                 this.selectedEngine = this.searchEngines[this.selectedEngine.id + 1] || this.searchEngines[0];
         },
         bang(bang) {
-            const se = this.bangs[(bang.startsWith("!") ? bang.slice(1) : bang).toLowerCase()];
+            const se = this.bangs[((bang.startsWith("!") || this.keyword.startsWith("！")) ? bang.slice(1) : bang).toLowerCase()];
             if (se) {
                 this.selectedEngine = se;
                 this.keyword = this.keyword.slice(bang.length + 1);
@@ -59,7 +59,7 @@ export default {
             const result = [];
 
             const parsedBang = this.keyword.split(" ", 1)[0];
-            if (this.keyword.startsWith("!")) {
+            if (this.keyword.startsWith("!") || this.keyword.startsWith("！")) {
                 const bangTxt = parsedBang.slice(1);
                 const se = this.bangs[bangTxt.toLowerCase()];
                 const restKeyword = this.keyword.slice(parsedBang.length + 1)
