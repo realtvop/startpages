@@ -1,9 +1,11 @@
 <script setup>
 import { showSnackBar } from '../utils/snackBar';
 import { formatExternalURL } from '../utils/formatURL';
+import { TLD } from '../utils/topLevelDomains';
 </script>
 
 <script>
+// http://data.iana.org/TLD/tlds-alpha-by-domain.txt
 export default {
     data() {
         return {
@@ -14,6 +16,7 @@ export default {
             resultclicked: false,
             bangs: {},
             primaryBang: '',
+            forceFocus: false,
         };
     },
     mounted() {
@@ -56,6 +59,10 @@ export default {
             }
             return false;
         },
+        focus(then) {
+            window.document.querySelector('.searchInput').focus();
+            return then();
+        },
     },
     computed: {
         results() {
@@ -82,6 +89,11 @@ export default {
                                     icon: 'lightbulb',
                                     text: `Bang Suggest: ${bang}`,
                                     keyword: this.bangs[bang].name,
+                                    onclick: () => {
+                                        window.document.querySelector('.searchInput').focus();
+                                        this.selectedEngine = this.bangs[bang];
+                                        this.keyword = '';
+                                    },
                                 });
                             }
                         }
@@ -110,7 +122,13 @@ export default {
             return result;
         },
         isInputURL() {
-            return this.keyword.startsWith("//") || this.keyword.startsWith("http") || this.keyword.endsWith("/");
+            if (this.keyword.startsWith("//") || this.keyword.startsWith("http") || this.keyword.endsWith("/")) return true;
+            const parsed = this.keyword.split(".");
+            if (!parsed.length || parsed.length === 1) return false;
+            const last = parsed[parsed.length - 1];
+            if (["html", "php", "aspx"].includes(last)) return true;
+            if (TLD.includes(last.toUpperCase())) return true;
+            return false;
         },
     },
     watch: {
@@ -120,7 +138,7 @@ export default {
                 this.selectedEngine = this.searchEngines && this.searchEngines[0] ? this.searchEngines[0] : { name: "Google", url: "https://www.google.com/search?q=%keyword%" };
                 this.selectedEngine.id = this.selectedEngine.id || 0;
                 this.bangs = {};
-        for (const engine of this.searchEngines) if (engine.bang) for (const bang of engine.bang) this.bangs[bang.toLowerCase()] = engine;
+                for (const engine of this.searchEngines) if (engine.bang) for (const bang of engine.bang) this.bangs[bang.toLowerCase()] = engine;
             },
         },
         selectedEngine: {
@@ -134,10 +152,11 @@ export default {
 
 <template>
     <div class="search">
-        <mdui-text-field type="search" autocapitalize="off" autocomplete="off" autocorrect="off" spellcheck="false"
-            :label="`Search ${selectedEngine.name} or type a URL`" clearable @keydown.tab="$event.preventDefault()"
-            @input="keyword = $event.target.value; focused = true;" @keyup.enter="doSearch" @keyup.tab="switchengine"
-            helper="↑ Choose search engine here" helper-on-focus :autofocus="$attrs.autofocus" :value="keyword">
+        <mdui-text-field class="searchInput" type="search" autocapitalize="off" autocomplete="off" autocorrect="off"
+            spellcheck="false" :label="`Search ${selectedEngine.name} or type a URL`" clearable
+            @keydown.tab="$event.preventDefault()" @input="keyword = $event.target.value; focused = true;"
+            @keyup.enter="doSearch" @keyup.tab="switchengine" helper="↑ Choose search engine here" helper-on-focus
+            :autofocus="$attrs.autofocus" :value="keyword">
             <mdui-dropdown slot="icon">
                 <mdui-button-icon slot="trigger" icon="search" variant="filled"></mdui-button-icon>
                 <mdui-menu>
@@ -145,13 +164,14 @@ export default {
                         @click="selectedEngine = searchEngine; selectedEngine.id = searchEngines.indexOf(searchEngine)"
                         :selected="selectedEngine.id == searchEngines.indexOf(searchEngine)">{{ searchEngine.name
                         }} {{ searchEngine.bang ? `<${searchEngine.bang.join(" | ").toLowerCase()}>` : '' }}</mdui-menu-item>
-                </mdui-menu>
-            </mdui-dropdown>
-            <mdui-button-icon slot="end-icon" icon="arrow_forward" @click="doSearch"></mdui-button-icon>
+                    </mdui-menu>
+                </mdui-dropdown>
+                <mdui-button-icon slot=" end-icon" icon="arrow_forward" @click="doSearch"></mdui-button-icon>
         </mdui-text-field>
         <mdui-menu v-if="(true || focused || resultclicked) && keyword" submenu-open-delay="200" submenu-close-delay="200"
             @focus="resultclicked = true">
-            <mdui-menu-item v-for="result in results" :icon="result.icon" target="_top" :href="result.url">{{ result.text }}
+            <mdui-menu-item v-for="result in results" :icon="result.icon" target="_top" :href="result.url"
+                @click="result.onclick">{{ result.text }}
                 - {{ result.keyword || keyword
                 }}</mdui-menu-item>
         </mdui-menu>
@@ -169,6 +189,7 @@ export default {
 mdui-menu {
     max-width: calc(100vw - 4rem) !important;
 }
+
 .search>mdui-menu {
     position: absolute;
     width: 100%;
@@ -183,5 +204,4 @@ mdui-menu {
     padding-top: 0;
     padding-bottom: 1rem;
     margin-top: -1.5rem;
-}
-</style>
+}</style>
