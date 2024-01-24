@@ -34,7 +34,7 @@ export default {
                 showSnackBar("Config loading: ERROR");
                 this.config = defaultConfig;
             }
-            if (configURL && navigator.onLine) this.loadConfigOnline(configURL);
+            if (configURL && navigator.onLine) this.loadConfigOnline(configURL, true);
         }
         const userConfig = localStorage.getItem("userConfig");
         if (userConfig)
@@ -47,7 +47,7 @@ export default {
             }
     },
     methods: {
-        loadConfigOnline(url) {
+        loadConfigOnline(url, dontLoadDefault) {
             fetch(url)
                 // .then(r => r.json())
                 .then(r => r.text())
@@ -57,7 +57,7 @@ export default {
                 .catch(err => {
                     console.log(err);
                     showSnackBar("Config online loading: ERROR");
-                    this.config = defaultConfig;
+                    if (!dontLoadDefault) this.config = defaultConfig;
                 });
         },
         // setFont(useJBM) {
