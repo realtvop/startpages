@@ -17,14 +17,20 @@ export default {
     },
     mounted() {
         // this.update();
+        window.document.addEventListener('visibilitychange', this.update);
     },
     methods: {
         async update() {
-            if (!this.city || !this.apiKey) return showSnackBar("Weather load: City or api key not set.");
+            if (!this.city || !this.apiKey) {
+                this.clearInterval();
+                return showSnackBar("Weather load: City or api key not set.");
+            }
+            if (document.visibilityState === "hidden") return this.clearInterval();
             this.weather = await getForecast(this.apiKey, this.city).catch(err => {
                 showSnackBar("Weather load: ERROR");
                 return this.weather;
             });
+            if (!this.intervalID && this.weather) this.setInterval();
         },
         showToolTip() {
             showSnackBar(`${this.weather ? "Change" : "Set"} City and API Key in your config file`, "top-end");
@@ -33,14 +39,19 @@ export default {
             if (this.intervalID) window.clearInterval(this.intervalID);
             this.intervalID = window.setInterval(this.update, this.interval * 1000);
         },
+        clearInterval() {
+            if (this.intervalID) {
+                window.clearInterval(this.intervalID);
+                this.intervalID = null;
+            }
+        },
     },
     watch: {
         "$attrs.config": {
             handler(newVal) {
                 this.city = newVal.city;
                 this.apiKey = newVal.key;
-                this.interval = typeof newVal.interval === 'number' ? newVal.interval || 60 : 60,
-                this.setInterval();
+                this.interval = typeof newVal.interval === 'number' ? newVal.interval || 60 : 60;
                 this.update();
             },
         },
