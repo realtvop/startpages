@@ -1,6 +1,6 @@
-export function getForecast(key, city) {
+export function getForecast(key, city, days=3) {
     return new Promise((res, rej) => {
-        fetch(`https://corsproxy.io/?https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city}&aqi=yes&days=3&now=${Date.now()}`)
+        fetch(`https://corsproxy.io/?https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city}&aqi=yes&days=${days}&now=${Date.now()}`)
             .then(r => r.json())
             .then(data => {
                 const current = parseCurrent(data.current);

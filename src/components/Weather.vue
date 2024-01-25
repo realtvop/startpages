@@ -9,6 +9,7 @@ export default {
     data() {
         return {
             city: null,
+            days: 3,
             apiKey: null,
             weather: null,
             interval: 60,
@@ -26,7 +27,7 @@ export default {
                 return showSnackBar("Weather load: City or api key not set.");
             }
             if (document.visibilityState === "hidden") return this.clearInterval();
-            this.weather = await getForecast(this.apiKey, this.city).catch(err => {
+            this.weather = await getForecast(this.apiKey, this.city, this.days).catch(err => {
                 showSnackBar("Weather load: ERROR");
                 return this.weather;
             });
@@ -50,6 +51,7 @@ export default {
         "$attrs.config": {
             handler(newVal) {
                 this.city = newVal.city;
+                this.days = newVal.days || 3;
                 this.apiKey = newVal.key;
                 this.interval = typeof newVal.interval === 'number' ? newVal.interval || 60 : 60;
                 this.update();
