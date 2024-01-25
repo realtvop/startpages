@@ -138,7 +138,7 @@ export default {
 mdui-menu {
     max-width: unset !important;
     width: 100%;
-    max-height: calc(100vh - 3.25rem);
+    max-height: calc(85vh - 3.25rem);
     overflow-y: scroll;
 }
 
