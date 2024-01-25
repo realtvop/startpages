@@ -5,6 +5,9 @@ var cacheStorageKey = "SPv0-";
 const CORE = [
     "/",
     "/index.html",
+    "/icons/favicon.ico",
+    "/icons/favicon.png",
+    "/mainsest.json",
 ];
 
 function parseURL(url) {
@@ -86,7 +89,7 @@ self.addEventListener("fetch", async function (e) {
             e.respondWith(cacheFirst(e.request, cacheStorageKey + "Res"));
             return;
         } else if (urlParsed.host == currentUrlParsed.host) {
-            e.respondWith(onlineFirst(e.request, cacheStorageKey + "Main"));
+            e.respondWith(cacheFirst(e.request, cacheStorageKey + "Main"));
             return;
         } else {
             e.respondWith(cacheFirst(e.request, cacheStorageKey + "ExternalRes"));
@@ -114,4 +117,18 @@ self.addEventListener("activate", function (e) {
                 return self.clients.claim();
             })
     );
+});
+
+self.addEventListener('message', event => {
+    const evtAct = event.data.action;
+    if (!evtAct) return;
+    if (evtAct === "update") {
+        const assets = JSON.parse(JSON.stringify(CORE));
+        for (const asset of event.data.assets) assets.push(`/assets/${asset}`);
+
+        caches.delete(cacheStorageKey + "Main");
+        caches.open(cacheStorageKey + "Main").then(function (cache) {
+            return cache.addAll(assets);
+        });
+    }
 });
