@@ -30,6 +30,7 @@ export default {
             showSnackBar(`${this.weather ? "Change" : "Set"} City and API Key in your config file`, "top-end");
         },
         setInterval() {
+            if (this.intervalID) window.clearInterval(this.intervalID);
             this.intervalID = window.setInterval(this.update, this.interval * 1000);
         },
     },
