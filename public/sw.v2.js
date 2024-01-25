@@ -83,7 +83,7 @@ self.addEventListener("fetch", async function (e) {
     const urlParsed = parseURL(e.request.url);
     const currentUrlParsed = parseURL(self.location.href);
     if (e.request.url.startsWith("http")) {
-        if (urlParsed.path.endsWith("sw.v2.js") || urlParsed.path.endsWith(".json") && !urlParsed.path.endsWith("manifest.json")) {
+        if (urlParsed.path.endsWith("sw.v2.js") || (urlParsed.path.endsWith(".json") && !urlParsed.path.endsWith("manifest.json")) || urlParsed.host.endsWith("weatherapi.com")) {
             return;
         } else if (urlParsed.host === "res.realtvop.eu.org") {
             e.respondWith(cacheFirst(e.request, cacheStorageKey + "Res"));

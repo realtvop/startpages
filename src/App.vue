@@ -2,6 +2,8 @@
 import Main from './components/Main.vue';
 import SetConfigDialog from './components/SetConfigDialog.vue';
 import UserInfo from './components/UserInfo.vue';
+import Weather from './components/Weather.vue';
+
 import defaultConfig from './utils/defaultConfig.json';
 import { showSnackBar } from './utils/snackBar';
 </script>
@@ -94,12 +96,13 @@ export default {
     <SetConfigDialog :open="setConfigDialog.open" :config="config" :loadConfigOnline="loadConfigOnline"
         :closeDialog="() => setConfigDialog.open = false" :reloadConfig="c => config = c"></SetConfigDialog>
     <mdui-layout style="position: fixed; left: 0; right: 0; top: 0; bottom: 0;">
-        <mdui-top-app-bar order="1" scroll-behavior="elevate">
+        <mdui-top-app-bar order="1">
             <mdui-top-app-bar-title>
                 {{ config.title || "realtvop's startpage" }}
             </mdui-top-app-bar-title>
             <div style="flex-grow: 1"></div>
             <mdui-button-icon icon="cloud_off" v-if="!online"></mdui-button-icon>
+            <Weather v-else :config="config.weatherApi"></Weather>
             <UserInfo :config="config" :userConfig="userConfig"
                 :openSetConfigDialog="function () { setConfigDialog.open = true }"
                 :toggleUserConfig="function (key) { userConfig[key] = !userConfig[key] }"></UserInfo>
@@ -115,4 +118,5 @@ export default {
 mdui-layout>mdui-top-app-bar {
     margin-left: 0.5rem;
     margin-right: 0.5rem;
-}</style>
+}
+</style>
