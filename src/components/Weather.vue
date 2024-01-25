@@ -129,7 +129,7 @@ export default {
 .btnImg {
     height: 3rem;
     /* transform: scale(0.75); */
-    margin-top: 0.5rem;
+    /* margin-top: 0.5rem; */
     align-self: center;
 }
 
