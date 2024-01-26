@@ -14,6 +14,7 @@ export default {
             weather: null,
             interval: 60,
             intervalID: null,
+            loading: false,
         };
     },
     mounted() {
@@ -27,10 +28,13 @@ export default {
                 return showSnackBar("Weather load: City or api key not set.");
             }
             if (document.visibilityState === "hidden") return this.clearInterval();
+            this.loading = true;
             this.weather = await getForecast(this.apiKey, this.city, this.days).catch(err => {
+                this.loading = false;
                 showSnackBar("Weather load: ERROR");
                 return this.weather;
             });
+            this.loading = false;
             if (!this.intervalID && this.weather) this.setInterval();
         },
         showToolTip() {
@@ -74,7 +78,7 @@ export default {
             </mdui-button>
             <mdui-menu>
                 <mdui-list-item @click="showToolTip">
-                    {{ city }}
+                    {{ weather.location }}
                     <span slot="description">
                         Last Updated: {{ weather.lastUpdated }}
                     </span>
@@ -116,7 +120,7 @@ export default {
             <span class="btnTxt">
                 Weather
                 <br />
-                Unavaliable
+                {{ loading ? "Loading" : "Unavaliable" }}
             </span>
         </mdui-button>
     </div>

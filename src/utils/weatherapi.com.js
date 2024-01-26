@@ -1,6 +1,7 @@
 export function getForecast(key, city, days=3) {
     return new Promise((res, rej) => {
         fetch(`https://corsproxy.io/?https://api.weatherapi.com/v1/forecast.json?key=${key}&q=${city}&aqi=yes&days=${days}&now=${Date.now()}`)
+            .catch(e => fetch(`https://weatherapi.realtvop.eu.org/${city}?key=${key}`))
             .then(r => r.json())
             .then(data => {
                 const current = parseCurrent(data.current);
@@ -13,6 +14,7 @@ export function getForecast(key, city, days=3) {
                 forecasts[1].date = "Tomorrow";
 
                 res({
+                    location: `${data.location.name}, ${data.location.region}`,
                     lastUpdated: data.current.last_updated,
                     current,
                     forecasts,
