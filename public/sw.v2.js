@@ -85,7 +85,7 @@ self.addEventListener("fetch", async function (e) {
     if (e.request.url.startsWith("http")) {
         if (urlParsed.path.endsWith("sw.v2.js") || (urlParsed.path.endsWith(".json") && !urlParsed.path.endsWith("manifest.json")) || (urlParsed.host === "corsproxy.io" && urlParsed.queryParam.startsWith("?https://api.weatherapi.com"))) {
             return;
-        } else if (urlParsed.host === "res.realtvop.eu.org") {
+        } else if (urlParsed.host === "res.realtvop.eu.org" || urlParsed.host === "res.realtvop.top") {
             e.respondWith(cacheFirst(e.request, cacheStorageKey + "Res"));
             return;
         } else if (urlParsed.host == currentUrlParsed.host) {

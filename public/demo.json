@@ -23,7 +23,7 @@
                     "name": "This project on GitHub"
                 },
                 {
-                    "url": "realtvop.eu.org",
+                    "url": "realtvop.top",
                     "description": "Author's website"
                 }
             ]
@@ -35,13 +35,13 @@
                     "url": "phitogether.fun",
                     "name": "PhiTogether",
                     "description": "Community driven rhythm game",
-                    "icon": "//realtvop.eu.org/icons/phitogether.ico"
+                    "icon": "//realtvop.top/icons/phitogether.ico"
                 },
                 {
                     "url": "phi.zone",
                     "name": "PhiZone",
                     "description": "A fanmade community for Phigros",
-                    "icon": "//realtvop.eu.org/icons/phizone.ico"
+                    "icon": "//realtvop.top/icons/phizone.ico"
                 }
             ]
         }
