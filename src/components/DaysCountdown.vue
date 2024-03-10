@@ -25,7 +25,7 @@ export default {
             const minutes = Math.floor((difference_ms / (1000 * 60)) % 60).toString();
             const seconds = Math.floor((difference_ms / 1000) % 60).toString();
 
-            return event.seconds ? `${days} day${days > 1 ? "s" : ''} ${["0", ""][hours.length-1]}${hours}:${["0", ""][hours.length-1]}${minutes}:${["0", ""][seconds.length-1]}${seconds}` : `${days} day${days > 1 ? "s" : ''}`;
+            return event.seconds ? `${days} day${days > 1 ? "s" : ''} ${["0", ""][hours.length-1]}${hours}:${["0", ""][minutes.length-1]}${minutes}:${["0", ""][seconds.length-1]}${seconds}` : `${days} day${days > 1 ? "s" : ''}`;
         },
         async update() {
             if (this.$attrs.events) for (const i of this.$attrs.events) i.remaining = this.getRemaining(i);
