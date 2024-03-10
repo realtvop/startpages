@@ -1,5 +1,6 @@
 <script setup>
 import lunarFun from 'lunar-fun';
+import DaysCountdown from './DaysCountdown.vue';
 </script>
 
 <script>
@@ -63,6 +64,7 @@ export default {
             </div>
             <span class="info-large">{{ currentDate }}</span>
         </div>
+        <DaysCountdown :events="$attrs.countdownevents"></DaysCountdown>
     </div>
     <div class="timeContainer" v-else>
         <div class="currentTimeContainer">
