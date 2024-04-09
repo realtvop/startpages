@@ -18,7 +18,7 @@ export default {
             const date1_ms = new Date();
             const date2_ms = new Date(event.date[0], event.date[1] - 1, event.date[2]);
             // Calculate the difference in milliseconds
-            const difference_ms = Math.abs(date1_ms - date2_ms);
+            const difference_ms = Math.abs(date1_ms - date2_ms - 1000);
             // Convert the difference to days, hours, minutes, and seconds
             const days = Math.floor(difference_ms / (1000 * 60 * 60 * 24)).toString();
             const hours = Math.floor((difference_ms / (1000 * 60 * 60)) % 24).toString();
