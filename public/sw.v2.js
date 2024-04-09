@@ -37,7 +37,7 @@ function cacheFirst(request, key) {
             return (
                 response ||
                 fetch(request).then((response) => {
-                    if (response.ok) cache.put(request, response.clone());
+                    if (response.ok || response.type === "opaque") cache.put(request, response.clone());
                     return response;
                 })
             );
